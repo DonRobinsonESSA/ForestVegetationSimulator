@@ -12,6 +12,8 @@ COMMONS
 C
       INCLUDE 'PRGPRM.F77'
       INCLUDE 'CONTRL.F77'
+      INCLUDE 'FMPARM.F77'
+      INCLUDE 'FMFCOM.F77'
       INCLUDE 'ECON.F77'
       INCLUDE 'SVDATA.F77'
       INCLUDE 'FVSSTDCM.F77'
@@ -232,8 +234,12 @@ C----------
 C  FFE SNAG OUTPUT FILE
 C----------
       CNAME=KWDFIL(:ISTLNB(KWDFIL))//'.sng'
-      CALL MYOPEN (35,CNAME,5,91,0,1,1,0,KODE)
-      IF (KODE.GT.0) WRITE (*,'('' OPEN FAILED FOR '',A)') CNAME
+      CALL MYOPEN (JSNOUT,CNAME,5,91,0,1,1,0,KODE)
+      IF (KODE.GT.0) then 
+        WRITE (*,'('' OPEN FAILED FOR '',A)') CNAME
+      ELSE
+        close(unit=JSNOUT, STATUS = 'delete')
+      ENDIF
 C----------
 C  OPEN THE SAMPLE TREE SCRATCH FILE.
 C----------
